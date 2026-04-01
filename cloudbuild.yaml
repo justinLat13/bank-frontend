@@ -24,9 +24,9 @@ steps:
     args:
       - build
       - '--build-arg'
-      - 'REACT_APP_API_URL=https://bank-backend-135897197036.northamerica-northeast2.run.app/api/v1'
+      - 'REACT_APP_API_URL=https://bank-backend-justin-524103119199.us-central1.run.app/api/v1'
       - '-t'
-      - 'northamerica-northeast2-docker.pkg.dev/molten-unison-462818-r2/app-repo/bank-frontend:$COMMIT_SHA'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
       - .
 
     id: Build Frontend Container Image
@@ -34,7 +34,7 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - 'northamerica-northeast2-docker.pkg.dev/molten-unison-462818-r2/app-repo/bank-frontend:$COMMIT_SHA'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
     id: Push Frontend Image to Artifact Registry
   
   - name: gcr.io/cloud-builders/gcloud
@@ -43,15 +43,16 @@ steps:
       - deploy
       - bank-frontend
       - '--image'
-      - 'northamerica-northeast2-docker.pkg.dev/molten-unison-462818-r2/app-repo/bank-frontend:$COMMIT_SHA'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
       - '--region'
-      - northamerica-northeast2
+      - $_DEPLOY_REGION
       - '--platform'
-      - managed
+      - $_PLATFORM
       - '--port'
       - '80'
     id: Deploy Frontend to Cloud Run
+timeout: 1200s
 images:
-  - 'northamerica-northeast2-docker.pkg.dev/molten-unison-462818-r2/app-repo/bank-frontend:$COMMIT_SHA'
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
 options:
   logging: CLOUD_LOGGING_ONLY
