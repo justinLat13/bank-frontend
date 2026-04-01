@@ -24,7 +24,7 @@ steps:
     args:
       - build
       - '--build-arg'
-      - 'REACT_APP_API_URL=https://bank-backend-justin-524103119199.us-central1.run.app/api/v1'
+      - 'REACT_APP_API_URL=https://bank-backend-justin-524103119199.northamerica-northeast1.run.app/api/v1'
       - '-t'
       - 'northamerica-northeast1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
       - .
