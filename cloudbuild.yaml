@@ -1,0 +1,57 @@
+# steps:
+#   - name: 'gcr.io/cloud-builders/docker'
+#     args:
+#       [
+#         'build',
+#         '-t',
+#         'us-central1-docker.pkg.dev/molten-unison-462818-r2/bank-app-repo-gke-test/bank-web-gke',
+#         '--build-arg',
+#         'REACT_APP_API_URL=http://35.224.132.174/api/v1',
+#         '.'
+#       ]
+# images:
+#   - 'us-central1-docker.pkg.dev/molten-unison-462818-r2/bank-app-repo-gke-test/bank-web-gke'
+
+
+
+
+
+
+
+#    cloudbuild-frontend-simple.yaml
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--build-arg'
+      - 'REACT_APP_API_URL=https://bank-backend-135897197036.northamerica-northeast2.run.app/api/v1'
+      - '-t'
+      - 'northamerica-northeast2-docker.pkg.dev/molten-unison-462818-r2/app-repo/bank-frontend:$COMMIT_SHA'
+      - .
+
+    id: Build Frontend Container Image
+  
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - 'northamerica-northeast2-docker.pkg.dev/molten-unison-462818-r2/app-repo/bank-frontend:$COMMIT_SHA'
+    id: Push Frontend Image to Artifact Registry
+  
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      - run
+      - deploy
+      - bank-frontend
+      - '--image'
+      - 'northamerica-northeast2-docker.pkg.dev/molten-unison-462818-r2/app-repo/bank-frontend:$COMMIT_SHA'
+      - '--region'
+      - northamerica-northeast2
+      - '--platform'
+      - managed
+      - '--port'
+      - '80'
+    id: Deploy Frontend to Cloud Run
+images:
+  - 'northamerica-northeast2-docker.pkg.dev/molten-unison-462818-r2/app-repo/bank-frontend:$COMMIT_SHA'
+options:
+  logging: CLOUD_LOGGING_ONLY
