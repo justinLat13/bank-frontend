@@ -26,7 +26,7 @@ steps:
       - '--build-arg'
       - 'REACT_APP_API_URL=https://bank-backend-justin-524103119199.us-central1.run.app/api/v1'
       - '-t'
-      - 'northamerica-northeast1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
       - .
 
     id: Build Frontend Container Image
@@ -34,7 +34,7 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - 'northamerica-northeast1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
     id: Push Frontend Image to Artifact Registry
   
   - name: gcr.io/cloud-builders/gcloud
@@ -43,9 +43,9 @@ steps:
       - deploy
       - bank-frontend
       - '--image'
-      - 'northamerica-northeast1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
       - '--region'
-      - northamerica-northeast1
+      - us-central1
       - '--platform'
       - managed
       - '--port'
@@ -53,6 +53,6 @@ steps:
     id: Deploy Frontend to Cloud Run
 timeout: 1200s
 images:
-  - 'northamerica-northeast1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
+  - 'us-central1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
 options:
   logging: CLOUD_LOGGING_ONLY
