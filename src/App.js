@@ -70,7 +70,7 @@ export default function App() {
     <Container disableGutters className='app'>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
-        <NavigationBar handleDrawerToggle={handleDrawerToggle} primary='FDM Bank'>
+        <NavigationBar handleDrawerToggle={handleDrawerToggle} primary='FDM Montreal Bank'>
           <NavigationBarLink primary='Log In'/>
           <NavigationBarLink primary='Register'/>
         </NavigationBar>
