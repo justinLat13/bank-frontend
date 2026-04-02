@@ -41,7 +41,7 @@ steps:
     args:
       - run
       - deploy
-      - bank-frontend
+      - bank-frontend-justin
       - '--image'
       - 'northamerica-northeast1-docker.pkg.dev/gcp-class-14/justin-repo/bank-frontend-justin:$COMMIT_SHA'
       - '--region'
